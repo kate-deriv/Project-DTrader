@@ -62,9 +62,10 @@ const Main = () => {
   }, []);
 
   const selectMarketHandler = (e) => {
+    setChoosenSymbol(null);
+    setTick(null);
+
     if (e.target.value === "Select Market") {
-      setChoosenSymbol(null);
-      setTick(null);
       return;
     }
 
@@ -76,9 +77,10 @@ const Main = () => {
   };
 
   const selectSymbolHandler = (e) => {
+    setTick(null);
+    setChoosenSymbol(null);
+    
     if (e.target.value === "Select trade symbol") {
-      setTick(null);
-      setChoosenSymbol(null);
       return;
     }
     setChoosenSymbol(serverResponse.find((item) => item.display_name === e.target.value).symbol);

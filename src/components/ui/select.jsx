@@ -7,7 +7,7 @@ const Select = ({ cbSelectMarketHandler, defaultOption, availibleOptions }) => {
         onChange={cbSelectMarketHandler}
         className={classes['markets__markets-list']}
       >
-        <option>{defaultOption}</option>
+        <option value={defaultOption}>{defaultOption}</option>
         {availibleOptions.length &&
           availibleOptions.map((market, i) => (
             <option value={market} key={i}>
