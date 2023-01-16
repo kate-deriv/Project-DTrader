@@ -7,6 +7,8 @@ import classes from "./header.module.css";
 
 const Header = () => {
   const [isAuthorized, setIsAuthorized] = useState(false);
+  const [userBalance, setUserBalance] = useState(null);
+  const [userCurrency, setUserCurrency] = useState(null);
   const [userName, setUserName] = useState(null);
 
   const EAuthorizeHandler = (data = null) => {
@@ -17,6 +19,8 @@ const Header = () => {
     }
     setIsAuthorized(true);
     setUserName(data.authorize.fullname);
+    setUserBalance(data.authorize.balance);
+    setUserCurrency(data.authorize.currency);
   };
 
   useEffect(() => {
@@ -34,6 +38,9 @@ const Header = () => {
         {isAuthorized && (
           <>
             <p>Hi, {userName} !</p>
+            <p>
+              {userBalance} {userCurrency}
+            </p>
             <LogOutBtn />
           </>
         )}

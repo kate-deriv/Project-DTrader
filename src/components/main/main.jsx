@@ -11,10 +11,8 @@ import MainSummary from "./main-summary";
 import classes from "./main.module.css";
 
 // TODO:
-// 1) Auth
 // 2) Trade type (options)
 // 3) Buy / sell btn
-// 5) Replace key values
 // 6) TS
 
 const Main = () => {

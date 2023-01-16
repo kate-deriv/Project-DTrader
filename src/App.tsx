@@ -8,14 +8,19 @@ import { clientEvents } from "./emiter/client-events";
 function App() {
   const [isCartShown, setIsCartShown] = useState(false);
 
-  const toggleCartHandler = () => {
-    setIsCartShown((prev) => !prev);
+  const CloseHandler = () => {
+    setIsCartShown(false);
+  };
+  const OpenHandler = () => {
+    setIsCartShown(true);
   };
 
   useEffect(() => {
-    clientEvents.addListener("ECartClicked", toggleCartHandler);
+    clientEvents.addListener("ECloseClicked", CloseHandler);
+    clientEvents.addListener("EOpenClicked", OpenHandler);
     return () => {
-      clientEvents.removeListener("ECartClicked", toggleCartHandler);
+      clientEvents.removeListener("ECloseClicked", CloseHandler);
+      clientEvents.removeListener("EOpenClicked", OpenHandler);
     };
   }, []);
 

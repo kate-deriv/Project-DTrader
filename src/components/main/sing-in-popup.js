@@ -9,8 +9,8 @@ const SignInPopup = (props) => {
   const [isAPIValid, setisAPIValid] = useState(true);
   const APITockenRef = useRef();
 
-  const closeCart = () => {
-    clientEvents.emit("ECartClicked");
+  const closeCard = () => {
+    clientEvents.emit("ECloseClicked");
   };
 
   const authorizeResponse = async (res) => {
@@ -25,14 +25,14 @@ const SignInPopup = (props) => {
     }
 
     if (data.msg_type === "authorize") {
-      closeCart();
+      closeCard();
       clientEvents.emit("EAuthorize", data);
     }
   };
 
   const getActiveSymbols = (userTocken) => {
     connection.addEventListener("message", authorizeResponse);
-    //This is my personal API tocken, you can use it for demo: QSw9m6F8QhPWf3Z
+    //This is my personal API tocken, you can use it for demo: QSw9m6F8QhPWf3Z (real acc without money) or PHMs7GYEsGpkaWC (demo with money)
     api.send({
       authorize: userTocken,
       req_id: 1,
@@ -57,6 +57,9 @@ const SignInPopup = (props) => {
   }`;
 
   const apiChange = () => {
+    if (isAPIValid) {
+      return;
+    }
     setisAPIValid(true);
   };
 
@@ -64,11 +67,11 @@ const SignInPopup = (props) => {
     <>
       <div className={classes.control}>
         <label htmlFor="name">Email</label>
-        <input type="text" id="email" />
+        <input type="text" id="email" placeholder="Currently unavailable" />
       </div>
       <div className={classes.control}>
         <label htmlFor="street">Password</label>
-        <input type="text" id="password" />
+        <input type="text" id="password" placeholder="Currently unavailable" />
       </div>
       <p>Or</p>
       <div className={nameControlClasses}>
@@ -81,7 +84,7 @@ const SignInPopup = (props) => {
         />
       </div>
       <div className={classes.actions}>
-        <button className={classes.button} type="button" onClick={closeCart}>
+        <button className={classes.button} type="button" onClick={closeCard}>
           Cancel
         </button>
         <button className={classes.button}>Log in</button>
@@ -91,13 +94,13 @@ const SignInPopup = (props) => {
 
   if (authError) {
     return (
-      <Modal onClose={closeCart}>
+      <Modal>
         <div className={classes.control}>
           <p> Opps, something went wrong!</p>
           <p> Please, check you API token</p>
         </div>
         <div className={classes.actions}>
-          <button className={classes.button} type="button" onClick={closeCart}>
+          <button className={classes.button} type="button" onClick={closeCard}>
             Cancel
           </button>
         </div>
@@ -106,7 +109,7 @@ const SignInPopup = (props) => {
   }
 
   return (
-    <Modal onClose={closeCart}>
+    <Modal>
       <p>Please, fill in the form below</p>
       <form className={classes.form} onSubmit={confirmHandler}>
         {content}

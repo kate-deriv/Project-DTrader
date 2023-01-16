@@ -2,12 +2,12 @@ import classes from "./sign-in-btn.module.css";
 import { clientEvents } from "../../emiter/client-events";
 
 const SignInBtn = (props) => {
-  const openCart = () => {
-    clientEvents.emit("ECartClicked");
+  const openCard = () => {
+    clientEvents.emit("EOpenClicked");
   };
 
   return (
-    <button className={classes.button} onClick={openCart}>
+    <button className={classes.button} onClick={openCard}>
       <span>Sign up</span>
     </button>
   );

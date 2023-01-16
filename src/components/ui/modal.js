@@ -4,7 +4,7 @@ import { clientEvents } from "../../emiter/client-events";
 
 const Backdrop = (props) => {
   const closeCart = () => {
-    clientEvents.emit("ECartClicked");
+    clientEvents.emit("ECloseClicked");
   };
 
   return <div className={classes.backdrop} onClick={closeCart} />;
