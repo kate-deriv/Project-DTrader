@@ -8,7 +8,7 @@ const SignInBtn = (props) => {
 
   return (
     <button className={classes.button} onClick={openCard}>
-      <span>Sign up</span>
+      <span>Sign in</span>
     </button>
   );
 };
