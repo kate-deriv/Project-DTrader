@@ -1,14 +1,13 @@
-import React from "react";
-import "./select.css";
+import classes from "./select.module.css";
 
 const Select = ({ cbSelectMarketHandler, defaultOption, availibleOptions }) => {
   return (
-    <div className="markets">
+    <div className={classes.markets}>
       <select
         onChange={cbSelectMarketHandler}
-        className="markets__markets-list"
+        className={classes['markets__markets-list']}
       >
-        <option>{defaultOption}</option>
+        <option value={defaultOption}>{defaultOption}</option>
         {availibleOptions.length &&
           availibleOptions.map((market, i) => (
             <option value={market} key={i}>
