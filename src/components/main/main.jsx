@@ -1,19 +1,21 @@
 import { useEffect, useState, useCallback } from "react";
-import { connection, api, active_symbols_request, ticks_request } from '../../api/api';
+import {
+  connection,
+  api,
+  active_symbols_request,
+  ticks_request,
+} from "../../api/api";
 import Select from "../ui/select";
 import Preloader from "../ui/preloader";
 import MainSummary from "./main-summary";
 import classes from "./main.module.css";
 
-
 // TODO:
 // 1) Auth
 // 2) Trade type (options)
 // 3) Buy / sell btn
-// 4) Pop-up for auth
 // 5) Replace key values
 // 6) TS
-
 
 const Main = () => {
   const [availibleMarkets, setAvailibleMarkets] = useState([]);
@@ -38,7 +40,7 @@ const Main = () => {
       return;
       //await api.disconnect();
     }
-    
+
     if (data.msg_type === "active_symbols") {
       setServerResponse(data.active_symbols);
       setAvailibleMarkets([
@@ -49,11 +51,11 @@ const Main = () => {
     if (data.msg_type === "tick") {
       setTick((prev) => {
         if (prev > data.tick.bid) {
-          setTickColor('#8a2b06');
+          setTickColor("#8a2b06");
         } else {
-          setTickColor('#047553');
+          setTickColor("#047553");
         }
-        return data.tick.bid
+        return data.tick.bid;
       });
     }
 
@@ -79,11 +81,13 @@ const Main = () => {
   const selectSymbolHandler = (e) => {
     setTick(null);
     setChoosenSymbol(null);
-    
+
     if (e.target.value === "Select trade symbol") {
       return;
     }
-    setChoosenSymbol(serverResponse.find((item) => item.display_name === e.target.value).symbol);
+    setChoosenSymbol(
+      serverResponse.find((item) => item.display_name === e.target.value).symbol
+    );
   };
 
   useEffect(() => {
@@ -115,12 +119,16 @@ const Main = () => {
     };
   }, [activeResponse]);
 
-  let message = <div className={classes.tick} style={{ color: tickColor }}>{tick}</div>;
+  let message = (
+    <div className={classes.tick} style={{ color: tickColor }}>
+      {tick}
+    </div>
+  );
   if (isLoading) {
     message = <Preloader />;
   }
   if (error) {
-    message = <h2 className={classes.warning}>Oops...Something went wrong!</h2>
+    message = <h2 className={classes.warning}>Oops...Something went wrong!</h2>;
   }
 
   return (
@@ -139,10 +147,8 @@ const Main = () => {
           availibleOptions={availibleSymbols}
         />
       </section>
-      { message }
+      {message}
     </main>
   );
 };
 export default Main;
-
-
