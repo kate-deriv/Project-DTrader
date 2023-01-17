@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import SignInPopup from './components/main/sing-in-popup';
 import Main from './components/main/main';
 import Header from './components/layout/header';
+import UserProvider from './store/user-provider';
 import './App.css';
 import { clientEvents } from "./emiter/client-events";
 
@@ -25,11 +26,11 @@ function App() {
   }, []);
 
   return (
-    <>
+    <UserProvider>
     {isCartShown && <SignInPopup />}
       <Header />
       <Main />
-    </>
+    </UserProvider>
   );
 }
 

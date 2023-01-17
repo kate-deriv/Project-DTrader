@@ -11,9 +11,9 @@ import MainSummary from "./main-summary";
 import classes from "./main.module.css";
 
 // TODO:
+// 1) Add storage
 // 2) Trade type (options)
-// 3) Buy / sell btn
-
+// 3) Rise / fall btn
 
 const Main = () => {
   const [availibleMarkets, setAvailibleMarkets] = useState([]);
