@@ -1,20 +1,20 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { clientEvents } from "../../emiter/client-events";
 import { connection, api } from "../../api/api";
 import Modal from "../ui/modal";
 import classes from "./sign-in-popup.module.css";
 
-const SignInPopup = (props) => {
+const SignInPopup = () => {
   const [authError, setAuthError] = useState(false);
   const [isAPIValid, setisAPIValid] = useState(true);
-  const APITockenRef = useRef();
+  const APITockenRef = useRef<HTMLInputElement>(null);
 
   const closeCard = () => {
     clientEvents.emit("ECloseClicked");
   };
 
-  const authorizeResponse = async (res) => {
-    const data = JSON.parse(res.data);
+  const authorizeResponse = async (res:any) => {
+    const data = await JSON.parse(res.data);
 
     if (data.error !== undefined) {
       setAuthError(true);
@@ -30,7 +30,7 @@ const SignInPopup = (props) => {
     }
   };
 
-  const getActiveSymbols = (userTocken) => {
+  const getActiveSymbols = (userTocken:string) => {
     connection.addEventListener("message", authorizeResponse);
     //This is my personal API tocken, you can use it for demo: QSw9m6F8QhPWf3Z (real acc without money) or PHMs7GYEsGpkaWC (demo with money)
     api.send({
@@ -39,10 +39,13 @@ const SignInPopup = (props) => {
     });
   };
 
-  const confirmHandler = (event) => {
+  const confirmHandler = (event:React.FormEvent) => {
     event.preventDefault();
-
-    const userAPIToken = APITockenRef.current.value;
+    //Added this only for TS
+    if (!APITockenRef.current) {
+      return;
+    }
+    const userAPIToken: string | null = APITockenRef.current.value;
 
     if (userAPIToken.trim() === "") {
       setisAPIValid(false);
