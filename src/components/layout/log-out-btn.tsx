@@ -2,7 +2,7 @@ import classes from "./sign-in-btn.module.css";
 import { api } from "../../api/api";
 import { clientEvents } from "../../emiter/client-events";
 
-const LogOutBtn = (props) => {
+const LogOutBtn = () => {
   const logOut = () => {
     api.send({
       logout: 1,

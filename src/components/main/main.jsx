@@ -13,7 +13,7 @@ import classes from "./main.module.css";
 // TODO:
 // 2) Trade type (options)
 // 3) Buy / sell btn
-// 6) TS
+
 
 const Main = () => {
   const [availibleMarkets, setAvailibleMarkets] = useState([]);

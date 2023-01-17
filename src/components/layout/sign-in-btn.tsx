@@ -1,7 +1,7 @@
 import classes from "./sign-in-btn.module.css";
 import { clientEvents } from "../../emiter/client-events";
 
-const SignInBtn = (props) => {
+const SignInBtn = () => {
   const openCard = () => {
     clientEvents.emit("EOpenClicked");
   };

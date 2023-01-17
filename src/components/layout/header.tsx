@@ -11,7 +11,7 @@ const Header = () => {
   const [userCurrency, setUserCurrency] = useState(null);
   const [userName, setUserName] = useState(null);
 
-  const EAuthorizeHandler = (data = null) => {
+  const EAuthorizeHandler = (data:any = null) => {
     console.log(data);
     if (!data) {
       setIsAuthorized(false);
