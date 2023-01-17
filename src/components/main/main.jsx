@@ -11,9 +11,10 @@ import MainSummary from "./main-summary";
 import classes from "./main.module.css";
 
 // TODO:
-// 1) Add storage
+// 1) "Contracts for Symbols" (symbol and currency are needed) -> Filter answer (market, expiry_type) -> render contract-category-display
 // 2) Trade type (options)
 // 3) Rise / fall btn
+// 4) Add icon
 
 const Main = () => {
   const [availibleMarkets, setAvailibleMarkets] = useState([]);
@@ -145,7 +146,7 @@ const Main = () => {
           availibleOptions={availibleSymbols}
         />
       </section>
-      {message}
+      <section>{message}</section>
     </main>
   );
 };
