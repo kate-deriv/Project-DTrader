@@ -2,7 +2,7 @@ import ReactDOM from "react-dom";
 import classes from "./modal.module.css";
 import { clientEvents } from "../../emiter/client-events";
 
-const Backdrop = (props) => {
+const Backdrop = () => {
   const closeCart = () => {
     clientEvents.emit("ECloseClicked");
   };
@@ -10,7 +10,7 @@ const Backdrop = (props) => {
   return <div className={classes.backdrop} onClick={closeCart} />;
 };
 
-const ModalOverlay = (props) => {
+const ModalOverlay:React.FC<{children: React.ReactNode}> = (props) => {
   return (
     <div className={classes.modal}>
       <div className={classes.content}>{props.children}</div>
@@ -18,9 +18,9 @@ const ModalOverlay = (props) => {
   );
 };
 
-const portalElement = document.getElementById("overlays");
+const portalElement = document.getElementById("overlays") as HTMLElement;
 
-const Modal = (props) => {
+const Modal:React.FC<{children: React.ReactNode}> = (props) => {
   return (
     <>
       {ReactDOM.createPortal(<Backdrop />, portalElement)}

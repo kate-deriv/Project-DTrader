@@ -1,6 +1,7 @@
+import React from "react";
 import classes from "./select.module.css";
 
-const Select = ({ cbSelectMarketHandler, defaultOption, availibleOptions }) => {
+const Select: React.FC<{cbSelectMarketHandler: () => void, defaultOption:string, availibleOptions:string[]}> = ({ cbSelectMarketHandler, defaultOption, availibleOptions }) => {
   return (
     <div className={classes.markets}>
       <select
@@ -9,7 +10,7 @@ const Select = ({ cbSelectMarketHandler, defaultOption, availibleOptions }) => {
       >
         <option value={defaultOption}>{defaultOption}</option>
         {availibleOptions.length &&
-          availibleOptions.map((market, i) => (
+          availibleOptions.map((market:string, i:number) => (
             <option value={market} key={i}>
               {market}
             </option>
