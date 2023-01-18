@@ -13,7 +13,7 @@ const MainSummary = () => {
         Choose tha market and available Instrument for trading, which suits you!
       </p>
       <p>
-        Please, authorized to choose Trade type.
+        Please, authorized to choose a Trade type.
       </p>
     </section>
   );

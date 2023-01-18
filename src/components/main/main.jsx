@@ -9,12 +9,9 @@ import Select from "../ui/select";
 import Preloader from "../ui/preloader";
 import MainSummary from "./main-summary";
 import Btn from "../ui/btn";
+import RangeTicks from "../ui/range-ticks";
 import UserContext from "../../store/user-context";
 import classes from "./main.module.css";
-
-// TODO:
-// 1) Add custom input type range
-// 2) Add icon
 
 const Main = () => {
   const [availibleMarkets, setAvailibleMarkets] = useState([]);
@@ -22,7 +19,7 @@ const Main = () => {
   const [availibleTradeTypes, setavailibleTradeTypes] = useState([]);
   const [allTradeTypes, setAllTradeTypes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
   const [choosenSymbol, setChoosenSymbol] = useState(null);
   const [serverResponse, setServerResponse] = useState([]);
   const [btnNamesArray, setBtnNamesArray] = useState([]);
@@ -37,8 +34,8 @@ const Main = () => {
     const data = JSON.parse(res.data);
 
     if (data.error !== undefined) {
-      setError(true);
-      console.log("Error : ", data.error?.message);
+      setError(data.error?.message);
+      console.log("Error: ", data.error?.message);
       //connection.removeEventListener("message", activeResponse, false);
       setIsLoading(false);
       return;
@@ -74,7 +71,6 @@ const Main = () => {
       ]);
     }
 
-    setError(false);
     setIsLoading(false);
   }, []);
 
@@ -96,6 +92,9 @@ const Main = () => {
   const selectSymbolHandler = (e) => {
     setTick(null);
     setChoosenSymbol(null);
+    setError(null);
+    setBtnNamesArray([]);
+    setAllTradeTypes([]);
 
     if (e.target.value === "Select trade symbol") {
       return;
@@ -133,6 +132,8 @@ const Main = () => {
     api.subscribe(ticks_request);
 
     if (ctx.isAuthorized) {
+      setAllTradeTypes([]);
+      setavailibleTradeTypes([]);
       const contracts_for_symbol_request = {
         contracts_for: choosenSymbol,
         currency: ctx?.userData?.authorize?.currency
@@ -175,7 +176,7 @@ const Main = () => {
               defaultOption={"Select Trade type"}
               availibleOptions={availibleTradeTypes}
             />
-            <input type="range"></input>
+            <RangeTicks />
             <Btn
               btnName={btnNamesArray[0] ? btnNamesArray[0] : "Up"}
               isGreen={true}
@@ -189,8 +190,21 @@ const Main = () => {
   if (isLoading) {
     message = <Preloader />;
   }
+
+  let info = null;
+  if (choosenSymbol && ctx.isAuthorized) {
+    info = (
+      <>
+        <p className={classes.warning}>Please, choose the Trade type{error}</p>
+      </>
+    );
+  }
   if (error) {
-    message = <h2 className={classes.warning}>Oops...Something went wrong!</h2>;
+    info = (
+      <>
+        <p className={classes.warning}>Oops...Something went wrong! {error}</p>
+      </>
+    );
   }
 
   return (
@@ -209,6 +223,7 @@ const Main = () => {
           availibleOptions={availibleSymbols}
         />
       </section>
+      <section>{info}</section>
       <section>{message}</section>
     </main>
   );

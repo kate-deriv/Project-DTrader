@@ -18,7 +18,7 @@ const SignInPopup = () => {
 
     if (data.error !== undefined) {
       setAuthError(true);
-      console.log("Error : ", data.error?.message);
+      console.log("Error: ", data.error?.message);
       //connection.removeEventListener("message", activeResponse, false);
       return;
       //await api.disconnect();
