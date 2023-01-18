@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/Project-DTrader/static/css/main.28f8c6d7.css",
-    "main.js": "/Project-DTrader/static/js/main.72c6cc66.js",
+    "main.js": "/Project-DTrader/static/js/main.7d9b659b.js",
     "static/media/chart2.jpg": "/Project-DTrader/static/media/chart2.f20ab3ceb7d5ff00c2de.jpg",
     "index.html": "/Project-DTrader/index.html",
     "main.28f8c6d7.css.map": "/Project-DTrader/static/css/main.28f8c6d7.css.map",
-    "main.72c6cc66.js.map": "/Project-DTrader/static/js/main.72c6cc66.js.map"
+    "main.7d9b659b.js.map": "/Project-DTrader/static/js/main.7d9b659b.js.map"
   },
   "entrypoints": [
     "static/css/main.28f8c6d7.css",
-    "static/js/main.72c6cc66.js"
+    "static/js/main.7d9b659b.js"
   ]
 }
