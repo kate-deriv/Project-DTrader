@@ -3,10 +3,10 @@ import classes from "./select.module.css";
 
 const Select: React.FC<{cbSelectMarketHandler: () => void, defaultOption:string, availibleOptions:string[]}> = ({ cbSelectMarketHandler, defaultOption, availibleOptions }) => {
   return (
-    <div className={classes.markets}>
+    <div className={classes['select-wrapper']}>
       <select
         onChange={cbSelectMarketHandler}
-        className={classes['markets__markets-list']}
+        className={classes['select-list']}
       >
         <option value={defaultOption}>{defaultOption}</option>
         {availibleOptions.length &&

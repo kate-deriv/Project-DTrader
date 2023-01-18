@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useContext } from "react";
 import {
   connection,
   api,
@@ -8,23 +8,28 @@ import {
 import Select from "../ui/select";
 import Preloader from "../ui/preloader";
 import MainSummary from "./main-summary";
+import Btn from "../ui/btn";
+import UserContext from "../../store/user-context";
 import classes from "./main.module.css";
 
 // TODO:
-// 1) "Contracts for Symbols" (symbol and currency are needed) -> Filter answer (market, expiry_type) -> render contract-category-display
-// 2) Trade type (options)
-// 3) Rise / fall btn
-// 4) Add icon
+// 1) Add custom input type range
+// 2) Add icon
 
 const Main = () => {
   const [availibleMarkets, setAvailibleMarkets] = useState([]);
   const [availibleSymbols, setAvailibleSymbols] = useState([]);
+  const [availibleTradeTypes, setavailibleTradeTypes] = useState([]);
+  const [allTradeTypes, setAllTradeTypes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [choosenSymbol, setChoosenSymbol] = useState(null);
   const [serverResponse, setServerResponse] = useState([]);
+  const [btnNamesArray, setBtnNamesArray] = useState([]);
   const [tick, setTick] = useState(null);
   const [tickColor, setTickColor] = useState("#047553");
+
+  const ctx = useContext(UserContext);
 
   const activeResponse = useCallback(async (res) => {
     setIsLoading(true);
@@ -58,6 +63,17 @@ const Main = () => {
       });
     }
 
+    if (data.msg_type === "contracts_for") {
+      setAllTradeTypes(data.contracts_for.available);
+      setavailibleTradeTypes([
+        ...new Set(
+          data.contracts_for.available.map(
+            (item) => item.contract_category_display
+          )
+        ),
+      ]);
+    }
+
     setError(false);
     setIsLoading(false);
   }, []);
@@ -89,6 +105,20 @@ const Main = () => {
     );
   };
 
+  const selectTradeTypeHandler = (e) => {
+    if (e.target.value === "Select trade symbol") {
+      return;
+    }
+
+    setBtnNamesArray([
+      ...new Set(
+        allTradeTypes
+          .filter((item) => item.contract_category_display === e.target.value)
+          .map((item) => item.contract_display)
+      ),
+    ]);
+  };
+
   useEffect(() => {
     api.send({
       forget_all: "ticks",
@@ -101,7 +131,20 @@ const Main = () => {
     ticks_request.ticks_history = choosenSymbol;
 
     api.subscribe(ticks_request);
-  }, [choosenSymbol]);
+
+    if (ctx.isAuthorized) {
+      const contracts_for_symbol_request = {
+        contracts_for: choosenSymbol,
+        currency: ctx?.userData?.authorize?.currency
+          ? ctx?.userData?.authorize?.currency
+          : "USD",
+        landing_company: "svg",
+        product_type: "basic",
+      };
+
+      api.send(contracts_for_symbol_request);
+    }
+  }, [choosenSymbol, ctx]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -118,11 +161,31 @@ const Main = () => {
     };
   }, [activeResponse]);
 
-  let message = (
-    <div className={classes.tick} style={{ color: tickColor }}>
-      {tick}
-    </div>
-  );
+  let message = null;
+  if (tick) {
+    message = (
+      <div className={classes["tick-container"]}>
+        <div className={classes.tick} style={{ color: tickColor }}>
+          {tick}
+        </div>
+        {ctx.isAuthorized && (
+          <div className={classes["trade-interface"]}>
+            <Select
+              cbSelectMarketHandler={selectTradeTypeHandler}
+              defaultOption={"Select Trade type"}
+              availibleOptions={availibleTradeTypes}
+            />
+            <input type="range"></input>
+            <Btn
+              btnName={btnNamesArray[0] ? btnNamesArray[0] : "Up"}
+              isGreen={true}
+            />
+            <Btn btnName={btnNamesArray[1] ? btnNamesArray[1] : "Down"} />
+          </div>
+        )}
+      </div>
+    );
+  }
   if (isLoading) {
     message = <Preloader />;
   }

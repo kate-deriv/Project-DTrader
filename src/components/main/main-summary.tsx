@@ -7,10 +7,13 @@ const MainSummary = () => {
       <p>
         Benefit from round-the-clock trading hours (Monday to Friday), high
         liquidity, low barriers to entry, a wide range of offerings, and
-        opportunities to trade on world events
+        opportunities to trade on world events.
       </p>
       <p>
         Choose tha market and available Instrument for trading, which suits you!
+      </p>
+      <p>
+        Please, authorized to choose Trade type.
       </p>
     </section>
   );

@@ -14,7 +14,6 @@ const Header = () => {
   const [userName, setUserName] = useState(null);
 
   const EAuthorizeHandler = (data:any = null) => {
-    console.log(data);
     if (!data) {
       ctx.changeIsAuthorized(false);
       return;

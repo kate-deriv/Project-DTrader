@@ -1,11 +1,39 @@
+.tick-container {
+  max-width: 1200px;
+  margin: 10px auto 30px auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.trade-interface {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  flex: 0 0 35%;
+}
+
 .tick {
-  margin: 0 auto;
   text-align: center;
   font-size: 6rem;
+  flex: 0 0 40%;
 }
+
 .warning {
   color: white;
   margin: 2rem auto;
   text-align: center;
   font-size: 2rem;
+}
+
+@media (max-width: 800px) {
+  .tick-container {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .trade-interface,
+  .tick {
+    width: 350px;
+  }
 }
