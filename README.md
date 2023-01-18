@@ -1,6 +1,10 @@
-# Getting Started with Create React App
+# Getting Started with Small Trader App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was created with the help of app.deriv.com and api.deriv.com. Small Trader provide the opportunity to choose market, trade tools and motinor ticks. If the ticks go up - they will be marked by green color, the opposite movement - marked by red. 
+
+For authorized users it's also possible to choose Trade type and the amount of ticks. You can sign in by typing personal API-token, which can be generated in account settings in app.deriv.com. Simply copy you API-tocken (or you may use this API-tockens for demo: QSw9m6F8QhPWf3Z (real acc without money) or PHMs7GYEsGpkaWC (demo acc with money)), insert in the gap and press submit button. Sign in via email and password is temporarily unavailable. After user signed in, his name, surname and account balance become visible.
+
+*Dev Notes (used technologies):* css module, ReactDOM.createPortal (for semantic popups), useReducer, useContext (for store creation), useEffect, useState, useCallback, eventEmiter.
 
 ## Available Scripts
 
