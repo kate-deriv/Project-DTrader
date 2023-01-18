@@ -13,6 +13,10 @@ import RangeTicks from "../ui/range-ticks";
 import UserContext from "../../store/user-context";
 import classes from "./main.module.css";
 
+//TODO:
+// 1) Fix bug with select value (should be default)
+// 2) Use try catch (uncaught in promice)
+
 const Main = () => {
   const [availibleMarkets, setAvailibleMarkets] = useState([]);
   const [availibleSymbols, setAvailibleSymbols] = useState([]);
@@ -119,6 +123,8 @@ const Main = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
+
     api.send({
       forget_all: "ticks",
     });
@@ -145,6 +151,8 @@ const Main = () => {
 
       api.send(contracts_for_symbol_request);
     }
+
+    setIsLoading(false);
   }, [choosenSymbol, ctx]);
 
   useEffect(() => {
