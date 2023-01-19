@@ -14,8 +14,7 @@ import UserContext from "../../store/user-context";
 import classes from "./main.module.css";
 
 //TODO:
-// 1) Fix bug with select value (should be default)
-// 2) Use try catch (uncaught in promice)
+// 1) Use try catch (uncaught in promice)
 
 const Main = () => {
   const [availibleMarkets, setAvailibleMarkets] = useState([]);
@@ -28,6 +27,9 @@ const Main = () => {
   const [serverResponse, setServerResponse] = useState([]);
   const [btnNamesArray, setBtnNamesArray] = useState([]);
   const [tick, setTick] = useState(null);
+  const [tradeSymbol, setTradeSymbol] = useState(null);
+  const [choosenMarket, setChoosenMarket] = useState(null);
+  const [selectedTradeType, setSelectedTradeType] = useState(null);
   const [tickColor, setTickColor] = useState("#047553");
 
   const ctx = useContext(UserContext);
@@ -81,6 +83,10 @@ const Main = () => {
   const selectMarketHandler = (e) => {
     setChoosenSymbol(null);
     setTick(null);
+    setTradeSymbol(null);
+    setSelectedTradeType(null);
+    setChoosenMarket(e.target.value);
+
     if (e.target.value === "Select Market") {
       return;
     }
@@ -98,7 +104,9 @@ const Main = () => {
     setError(null);
     setBtnNamesArray([]);
     setAllTradeTypes([]);
+    setSelectedTradeType(null);
 
+    setTradeSymbol(e.target.value);
     if (e.target.value === "Select trade symbol") {
       return;
     }
@@ -108,6 +116,8 @@ const Main = () => {
   };
 
   const selectTradeTypeHandler = (e) => {
+    setSelectedTradeType(e.target.value);
+
     if (e.target.value === "Select trade symbol") {
       return;
     }
@@ -128,6 +138,7 @@ const Main = () => {
     });
 
     if (choosenSymbol === null) {
+      setIsLoading(false);
       return;
     }
     ticks_request.ticks_history = choosenSymbol;
@@ -183,6 +194,7 @@ const Main = () => {
               cbSelectMarketHandler={selectTradeTypeHandler}
               defaultOption={"Select Trade type"}
               availibleOptions={availibleTradeTypes}
+              selected={selectedTradeType}
             />
             <RangeTicks />
             <Btn
@@ -223,12 +235,14 @@ const Main = () => {
           cbSelectMarketHandler={selectMarketHandler}
           defaultOption={"Select Market"}
           availibleOptions={availibleMarkets}
+          selected={choosenMarket}
         />
 
         <Select
           cbSelectMarketHandler={selectSymbolHandler}
           defaultOption={"Select trade symbol"}
           availibleOptions={availibleSymbols}
+          selected={tradeSymbol}
         />
       </section>
       <section>{info}</section>
