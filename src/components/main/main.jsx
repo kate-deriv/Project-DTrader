@@ -13,9 +13,6 @@ import RangeTicks from "../ui/range-ticks";
 import UserContext from "../../store/user-context";
 import classes from "./main.module.css";
 
-//TODO:
-// 1) Use try catch (uncaught in promice)
-
 const Main = () => {
   const [availibleMarkets, setAvailibleMarkets] = useState([]);
   const [availibleSymbols, setAvailibleSymbols] = useState([]);
@@ -37,11 +34,10 @@ const Main = () => {
   const activeResponse = useCallback(async (res) => {
     setIsLoading(true);
 
-    const data = JSON.parse(res.data);
+    const data = await JSON.parse(res.data);
 
     if (data.error !== undefined) {
       setError(data.error?.message);
-      console.log("Error: ", data.error?.message);
       //connection.removeEventListener("message", activeResponse, false);
       setIsLoading(false);
       return;
@@ -133,9 +129,11 @@ const Main = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    api.send({
-      forget_all: "ticks",
-    });
+    api
+      .send({
+        forget_all: "ticks",
+      })
+      .catch((e) => console.log(e.error.message));
 
     if (choosenSymbol === null) {
       setIsLoading(false);
@@ -143,11 +141,12 @@ const Main = () => {
     }
     ticks_request.ticks_history = choosenSymbol;
 
-    api.send(ticks_request);
+    api.send(ticks_request).catch((e) => console.log(e.error.message));
 
     if (ctx.isAuthorized) {
       setAllTradeTypes([]);
       setavailibleTradeTypes([]);
+
       const contracts_for_symbol_request = {
         contracts_for: choosenSymbol,
         currency: ctx?.userData?.authorize?.currency
@@ -160,7 +159,9 @@ const Main = () => {
       if (error === "The token is invalid.") {
         setError(false);
       }
-      api.send(contracts_for_symbol_request);
+      api
+        .send(contracts_for_symbol_request)
+        .catch((e) => console.log(e.error.message));
     }
 
     setIsLoading(false);
@@ -168,10 +169,11 @@ const Main = () => {
 
   useEffect(() => {
     setIsLoading(true);
-
     const getActiveSymbols = async () => {
       connection.addEventListener("message", activeResponse);
-      await api.send(active_symbols_request);
+      await api
+        .send(active_symbols_request)
+        .catch((e) => console.log(e.error.message));
     };
 
     getActiveSymbols();

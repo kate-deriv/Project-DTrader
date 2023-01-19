@@ -18,7 +18,6 @@ const SignInPopup = () => {
 
     if (data.error !== undefined) {
       setAuthError(true);
-      console.log("Error: ", data.error?.message);
       //connection.removeEventListener("message", activeResponse, false);
       return;
       //await api.disconnect();
@@ -36,7 +35,7 @@ const SignInPopup = () => {
     api.send({
       authorize: userTocken,
       req_id: 1,
-    });
+    }).catch((e:any) => console.log(e.error.message));
   };
 
   const confirmHandler = (event:React.FormEvent) => {
