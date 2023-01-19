@@ -81,7 +81,6 @@ const Main = () => {
   const selectMarketHandler = (e) => {
     setChoosenSymbol(null);
     setTick(null);
-
     if (e.target.value === "Select Market") {
       return;
     }
@@ -124,7 +123,6 @@ const Main = () => {
 
   useEffect(() => {
     setIsLoading(true);
-
     api.send({
       forget_all: "ticks",
     });
@@ -132,10 +130,9 @@ const Main = () => {
     if (choosenSymbol === null) {
       return;
     }
-
     ticks_request.ticks_history = choosenSymbol;
 
-    api.subscribe(ticks_request);
+    api.send(ticks_request);
 
     if (ctx.isAuthorized) {
       setAllTradeTypes([]);
@@ -149,11 +146,14 @@ const Main = () => {
         product_type: "basic",
       };
 
+      if (error === "The token is invalid.") {
+        setError(false);
+      }
       api.send(contracts_for_symbol_request);
     }
 
     setIsLoading(false);
-  }, [choosenSymbol, ctx]);
+  }, [choosenSymbol, ctx, error]);
 
   useEffect(() => {
     setIsLoading(true);
